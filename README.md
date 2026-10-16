@@ -105,15 +105,34 @@ and Executor detects the type, indexes the tools, and handles auth. Or add one
 from the CLI:
 
 ```bash
-executor call executor openapi addIntegration '{
-  "spec": "https://petstore3.swagger.io/api/v3/openapi.json",
-  "namespace": "petstore",
-  "baseUrl": "https://petstore3.swagger.io/api/v3"
+executor call executor openapi addSpec '{
+  "spec": { "kind": "url", "url": "https://petstore3.swagger.io/api/v3/openapi.json" },
+  "slug": "petstore",
+  "baseUrl": "https://petstore3.swagger.io/api/v3",
+  "authenticationTemplate": []
 }'
 ```
 
 Use `baseUrl` when the OpenAPI document has relative `servers` entries (for
-example `"/api/v3"`). Confirm it is live with `executor tools integrations`.
+example `"/api/v3"`). `"authenticationTemplate": []` registers the API without
+the auth schemes its spec declares.
+
+Tools are generated once the integration has a connection. Petstore needs no
+auth, so create one with the `none` template:
+
+```bash
+executor call executor coreTools connections create '{"owner":"org","name":"default","integration":"petstore","template":"none"}'
+```
+
+For an API that needs credentials, use `connections.createHandoff` for API keys
+or `oauth.start` for OAuth instead.
+
+Under the default policy, both calls pause for approval and print an execution
+ID. Approve with `executor resume --execution-id <id>`, or open `/resume/<id>`
+in the web UI.
+
+Confirm it is live with `executor tools integrations`; `petstore` should report
+a `toolCount` above 0.
 
 ## Using tools
 
