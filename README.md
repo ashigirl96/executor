@@ -127,8 +127,8 @@ executor call executor coreTools connections create '{"owner":"org","name":"defa
 For an API that needs credentials, use `connections.createHandoff` for API keys
 or `oauth.start` for OAuth instead.
 
-Under the default policy, both calls pause for approval and print an execution
-ID. Approve with `executor resume --execution-id <id>`, or open `/resume/<id>`
+Under the default policy, the `addSpec` and `connections create` calls pause for
+approval and print an execution ID. Approve with `executor resume --execution-id <id>`, or open `/resume/<id>`
 in the web UI.
 
 Confirm it is live with `executor tools integrations`; `petstore` should report
