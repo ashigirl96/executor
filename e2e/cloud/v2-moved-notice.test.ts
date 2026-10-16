@@ -132,7 +132,7 @@ scenario(
         expect(pair).toContain(`v2 · ${V2_SLUG}`);
         expect(await notice.getByText("Changes made here won't sync to v2.").count()).toBe(1);
 
-        const open = notice.getByRole("link", { name: `Open ${org.name} in v2` });
+        const open = notice.getByRole("link", { name: `Open ${org.name} in v2`, exact: true });
         expect(await open.getAttribute("href"), "the button opens the org in v2").toBe(
           answer.moved!.v2Url,
         );
